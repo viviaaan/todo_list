@@ -39,7 +39,6 @@ function addTodoItem() {
 
   let doneButton = document.createElement('button')
   doneButton.type = 'button'
-  doneButton.textContent = '✔'
   doneButton.className = 'done-button'
   doneButton.addEventListener('click', (event: MouseEvent) => {
     toggleTaskDone(event)
@@ -78,7 +77,6 @@ function addTodoItem() {
   let delete_button = document.createElement('button')
   delete_button.type = 'button'
   delete_button.className = 'delete-button'
-  delete_button.innerHTML = 'X'
 
   delete_button.addEventListener('click', (event) => {
     const target = event.target as HTMLInputElement

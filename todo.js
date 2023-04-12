@@ -31,7 +31,6 @@ function addTodoItem() {
     todo_item.style.opacity = '1';
     var doneButton = document.createElement('button');
     doneButton.type = 'button';
-    doneButton.textContent = '✔';
     doneButton.className = 'done-button';
     doneButton.addEventListener('click', function (event) {
         toggleTaskDone(event);
@@ -60,7 +59,6 @@ function addTodoItem() {
     var delete_button = document.createElement('button');
     delete_button.type = 'button';
     delete_button.className = 'delete-button';
-    delete_button.innerHTML = 'X';
     delete_button.addEventListener('click', function (event) {
         var _a;
         var target = event.target;

@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 #add-button, .delete-button, .done-button {
@@ -44,8 +46,6 @@ header, #todo-list {
 
 header {
   font-size: 2rem;
-  -webkit-user-select: none;
-  user-select: none;
   border-bottom: 1px solid white;
   padding: 0.2rem;
   margin-bottom: 1rem;
@@ -96,4 +96,18 @@ header {
 .delete-button, .done-button {
   width: 6%;
   border-radius: 4px;
+}
+
+.done-button {
+  background-image: url('check_mark.svg');
+  background-size: 2rem 2rem;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.delete-button {
+  background-image: url('trash.svg');
+  background-size: 2rem 2rem;
+  background-repeat: no-repeat;
+  background-position: center;
 }
