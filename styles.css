@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 
-#add-button, .delete-button {
+#add-button, .delete-button, .done-button {
   border-width: unset;
   border-style: unset;
   border-color: unset;
@@ -17,11 +17,23 @@
   background-color: rgba(255, 0, 0, 0.4);
 }
 
-#add-button:active, .delete-button:active {
+.delete-button:active {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.done-button:hover {
+  background-color: rgba(0, 255, 0, 0.4);
+}
+
+.done-button:active {
+  background-color: rgba(0, 255, 0, 0.2);
+}
+
+#add-button:active {
   background-color: rgba(94, 97, 92);
 }
 
-html, #add-button, .delete-button, .todo-item {
+html, #add-button, .delete-button, .todo-item, .done-button {
   background-color: #0f0f0f;
   color: white;
 }
@@ -71,7 +83,7 @@ header {
 }
 
 .todo-textbox {
-  width: 94%;
+  width: 88%;
   overflow-wrap: break-word;
   font-size: inherit;
   text-align: left;
@@ -81,7 +93,7 @@ header {
   margin: 0;
 }
 
-.delete-button {
+.delete-button, .done-button {
   width: 6%;
   border-radius: 4px;
 }

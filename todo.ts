@@ -1,60 +1,33 @@
-// function clearSelection() {
-//   let range = document.createRange()
-//   range.collapse(true)
-//   if (window.getSelection) {
-//     if (window.getSelection()?.empty) {  // Chrome
-//       window.getSelection()?.empty();
-//     } else if (window.getSelection()?.removeAllRanges) {  // Firefox
-//       window.getSelection()?.removeAllRanges();
-//     }
-//   }
-//   window.getSelection()?.addRange(range)
-// }
-
-// function click(x,y){
-//     var ev = document.createEvent("MouseEvent");
-//     var el = document.elementFromPoint(x,y);
-//     ev.initMouseEvent(
-//         "click",
-//         true /* bubble */, true /* cancelable */,
-//         window, null,
-//         x, y, 0, 0, /* coordinates */
-//         false, false, false, false, /* modifier keys */
-//         0 /*left*/, null
-//     );
-//     console.log(el.dispatchEvent(ev))
-// }
-
 function handleDoubleClick(event: MouseEvent) {
-    let target = event.target as HTMLInputElement
+  let target = event.target as HTMLInputElement
 
-    // if (target.contentEditable === 'true') {
-    //   clearSelection()
-    // }
-    // console.log(event)
-    target.contentEditable = (target.contentEditable === 'false').toString()
+  target.contentEditable = (target.contentEditable === 'false').toString()
 
-    // if (target.contentEditable === 'true') {
-    //   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-    //   let x = event.clientX
-    //   let y = event.clientY
-    //   click(x, y)
-    // }
+  if (target.contentEditable === 'true') {
+    target.classList.remove('hovereffect')
+  } else {
+    target.classList.add('hovereffect')
+  }
 
-    if (target.contentEditable === 'true') {
-      target.classList.remove('hovereffect')
-    } else {
-      target.classList.add('hovereffect')
-    }
+  target.focus()
+}
 
-    target.focus()
+function toggleTaskDone(event: MouseEvent) {
+  let target = event.target as HTMLInputElement
+  let todo_textbox = target.parentElement?.children[1] as HTMLInputElement
+
+  todo_textbox.style.textDecoration = todo_textbox.style.textDecoration === 'none' ? 'line-through #ffffff solid 1px' : 'none'
+  todo_textbox.style.color = todo_textbox.style.color === 'white' ? 'rgba(255, 255, 255, 0.7)' : 'white'
+  if (target.parentElement) {
+    target.parentElement.style.opacity = target.parentElement?.style.opacity === '1' ? '0.5' : '1'
+  }
 }
 
 function handleFocusOut(event: Event) {
-    let target = event.target as HTMLInputElement
+  let target = event.target as HTMLInputElement
 
-    target.contentEditable = 'false'
-    target.classList.add('hovereffect')
+  target.contentEditable = 'false'
+  target.classList.add('hovereffect')
 }
 
 function addTodoItem() {
@@ -62,27 +35,28 @@ function addTodoItem() {
 
   let todo_item = document.createElement('div')
   todo_item.className = 'todo-item'
+  todo_item.style.opacity = '1'
+
+  let doneButton = document.createElement('button')
+  doneButton.type = 'button'
+  doneButton.textContent = '✔'
+  doneButton.className = 'done-button'
+  doneButton.addEventListener('click', (event: MouseEvent) => {
+    toggleTaskDone(event)
+  })
+
+  todo_item.appendChild(doneButton)
 
   let todo_textbox = document.createElement('div')
   todo_textbox.className = 'todo-textbox'
   todo_textbox.contentEditable = 'true'
   todo_textbox.style.userSelect = 'none'
 
-  let timer
-  todo_textbox.addEventListener('click', (event: MouseEvent) => {
-    if (event.detail === 1) {
-      timer = setTimeout(() => {
-      let target = event.target as HTMLInputElement
 
-      target.style.textDecoration = target.style.textDecoration === 'none' ? 'line-through #808080 solid 2px' : 'none'
-      target.style.color = target.style.color === 'white' ? 'rgba(255, 255, 255, 0.7)' : 'white'
-      target.parentElement.style.opacity = target.parentElement?.style.opacity === '1' ? '0.5' : '1'
-      }, 300)
-    }
-  })
+  todo_textbox.style.textDecoration = 'none'
+  todo_textbox.style.color = 'white'
 
   todo_textbox.addEventListener('dblclick', (event: MouseEvent) => {
-    clearTimeout(timer)
     handleDoubleClick(event)
   })
 

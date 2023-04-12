@@ -1,41 +1,6 @@
-// function clearSelection() {
-//   let range = document.createRange()
-//   range.collapse(true)
-//   if (window.getSelection) {
-//     if (window.getSelection()?.empty) {  // Chrome
-//       window.getSelection()?.empty();
-//     } else if (window.getSelection()?.removeAllRanges) {  // Firefox
-//       window.getSelection()?.removeAllRanges();
-//     }
-//   }
-//   window.getSelection()?.addRange(range)
-// }
-// function click(x,y){
-//     var ev = document.createEvent("MouseEvent");
-//     var el = document.elementFromPoint(x,y);
-//     ev.initMouseEvent(
-//         "click",
-//         true /* bubble */, true /* cancelable */,
-//         window, null,
-//         x, y, 0, 0, /* coordinates */
-//         false, false, false, false, /* modifier keys */
-//         0 /*left*/, null
-//     );
-//     console.log(el.dispatchEvent(ev))
-// }
 function handleDoubleClick(event) {
     var target = event.target;
-    // if (target.contentEditable === 'true') {
-    //   clearSelection()
-    // }
-    // console.log(event)
     target.contentEditable = (target.contentEditable === 'false').toString();
-    // if (target.contentEditable === 'true') {
-    //   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-    //   let x = event.clientX
-    //   let y = event.clientY
-    //   click(x, y)
-    // }
     if (target.contentEditable === 'true') {
         target.classList.remove('hovereffect');
     }
@@ -43,6 +8,16 @@ function handleDoubleClick(event) {
         target.classList.add('hovereffect');
     }
     target.focus();
+}
+function toggleTaskDone(event) {
+    var _a, _b;
+    var target = event.target;
+    var todo_textbox = (_a = target.parentElement) === null || _a === void 0 ? void 0 : _a.children[1];
+    todo_textbox.style.textDecoration = todo_textbox.style.textDecoration === 'none' ? 'line-through #ffffff solid 1px' : 'none';
+    todo_textbox.style.color = todo_textbox.style.color === 'white' ? 'rgba(255, 255, 255, 0.7)' : 'white';
+    if (target.parentElement) {
+        target.parentElement.style.opacity = ((_b = target.parentElement) === null || _b === void 0 ? void 0 : _b.style.opacity) === '1' ? '0.5' : '1';
+    }
 }
 function handleFocusOut(event) {
     var target = event.target;
@@ -53,24 +28,22 @@ function addTodoItem() {
     var todo_items = document.getElementById('todo-items');
     var todo_item = document.createElement('div');
     todo_item.className = 'todo-item';
+    todo_item.style.opacity = '1';
+    var doneButton = document.createElement('button');
+    doneButton.type = 'button';
+    doneButton.textContent = '✔';
+    doneButton.className = 'done-button';
+    doneButton.addEventListener('click', function (event) {
+        toggleTaskDone(event);
+    });
+    todo_item.appendChild(doneButton);
     var todo_textbox = document.createElement('div');
     todo_textbox.className = 'todo-textbox';
     todo_textbox.contentEditable = 'true';
     todo_textbox.style.userSelect = 'none';
-    var timer;
-    todo_textbox.addEventListener('click', function (event) {
-        if (event.detail === 1) {
-            timer = setTimeout(function () {
-                var _a;
-                var target = event.target;
-                target.style.textDecoration = target.style.textDecoration === 'none' ? 'line-through #808080 solid 2px' : 'none';
-                target.style.color = target.style.color === 'white' ? 'rgba(255, 255, 255, 0.7)' : 'white';
-                target.parentElement.style.opacity = ((_a = target.parentElement) === null || _a === void 0 ? void 0 : _a.style.opacity) === '1' ? '0.5' : '1';
-            }, 300);
-        }
-    });
+    todo_textbox.style.textDecoration = 'none';
+    todo_textbox.style.color = 'white';
     todo_textbox.addEventListener('dblclick', function (event) {
-        clearTimeout(timer);
         handleDoubleClick(event);
     });
     todo_textbox.addEventListener('focusout', function (event) {
