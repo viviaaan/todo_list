@@ -1,0 +1,87 @@
+* {
+  box-sizing: border-box;
+}
+
+#add-button, .delete-button {
+  border-width: unset;
+  border-style: unset;
+  border-color: unset;
+  border-image: unset;
+}
+
+#add-button:hover, .hovereffect:hover {
+  background-color: rgba(94, 97, 92, 0.5);
+}
+
+.delete-button:hover {
+  background-color: rgba(255, 0, 0, 0.4);
+}
+
+#add-button:active, .delete-button:active {
+  background-color: rgba(94, 97, 92);
+}
+
+html, #add-button, .delete-button, .todo-item {
+  background-color: #0f0f0f;
+  color: white;
+}
+
+header, #todo-list {
+  text-align: center;
+}
+
+header {
+  font-size: 2rem;
+  -webkit-user-select: none;
+  user-select: none;
+  border-bottom: 1px solid white;
+  padding: 0.2rem;
+  margin-bottom: 1rem;
+}
+
+#add-button {
+  font-size: 2rem;
+  min-height: 3rem;
+  border-radius: 10px;
+}
+
+#todo-list {
+  display: flex;
+  flex-direction: column;
+
+  width: 900px;
+  max-width: 100%;
+}
+
+#container {
+  display: flex;
+  justify-content: center;
+}
+
+.todo-item {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  font-size: 1.5rem;
+  min-height: 1.8lh;
+  align-items: stretch;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px 0px white;
+  overflow: hidden;
+}
+
+.todo-textbox {
+  width: 94%;
+  overflow-wrap: break-word;
+  font-size: inherit;
+  text-align: left;
+  border-radius: 4px;
+  outline: none;
+  padding: 10px;
+  margin: 0;
+}
+
+.delete-button {
+  width: 6%;
+  border-radius: 4px;
+}
