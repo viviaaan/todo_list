@@ -12,15 +12,36 @@ function handleDoubleClick(event: MouseEvent) {
   target.focus()
 }
 
-function toggleTaskDone(event: MouseEvent) {
-  let target = event.target as HTMLInputElement
-  let todo_textbox = target.parentElement?.children[1] as HTMLInputElement
+function keyboardShortcuts(event: KeyboardEvent) {
+  const key = event.key
+
+  if (key === 'n' || key === 'c') {
+    event.preventDefault()
+    addTodoItem('beginning')
+  } else if (key === 'N' || key === 'C') {
+    event.preventDefault()
+    addTodoItem('end')
+  } else if (key === 'x' || key === 'q') {
+    event.preventDefault()
+    const todo_items = document.getElementById('todo-items')
+    todo_items?.removeChild(todo_items.firstChild as ChildNode)
+  } else if (key === 'X' || key === 'Q') {
+    event.preventDefault()
+    const todo_items = document.getElementById('todo-items')
+    todo_items?.removeChild(todo_items.lastChild as ChildNode)
+  } else if (key === 'd' || key === 'f') {
+    event.preventDefault()
+    const todo_items = document.getElementById('todo-items')
+    toggleTaskDone(todo_items?.firstChild as HTMLElement)
+  }
+}
+
+function toggleTaskDone(target: HTMLElement) {
+  let todo_textbox = target.children[1] as HTMLInputElement
 
   todo_textbox.style.textDecoration = todo_textbox.style.textDecoration === 'none' ? 'line-through #ffffff solid 1px' : 'none'
   todo_textbox.style.color = todo_textbox.style.color === 'white' ? 'rgba(255, 255, 255, 0.7)' : 'white'
-  if (target.parentElement) {
-    target.parentElement.style.opacity = target.parentElement?.style.opacity === '1' ? '0.5' : '1'
-  }
+  target.style.opacity = target.style.opacity === '1' ? '0.5' : '1'
 }
 
 function handleFocusOut(event: Event) {
@@ -28,9 +49,11 @@ function handleFocusOut(event: Event) {
 
   target.contentEditable = 'false'
   target.classList.add('hovereffect')
+
+  document.addEventListener('keydown', keyboardShortcuts)
 }
 
-function addTodoItem() {
+function addTodoItem(where: String = 'beginning') {
   let todo_items = document.getElementById('todo-items')
 
   let todo_item = document.createElement('div')
@@ -40,8 +63,9 @@ function addTodoItem() {
   let doneButton = document.createElement('button')
   doneButton.type = 'button'
   doneButton.className = 'done-button'
-  doneButton.addEventListener('click', (event: MouseEvent) => {
-    toggleTaskDone(event)
+  doneButton.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement
+    toggleTaskDone(target.parentElement as HTMLElement)
   })
 
   todo_item.appendChild(doneButton)
@@ -51,18 +75,14 @@ function addTodoItem() {
   todo_textbox.contentEditable = 'true'
   todo_textbox.style.userSelect = 'none'
 
-
   todo_textbox.style.textDecoration = 'none'
   todo_textbox.style.color = 'white'
 
-  todo_textbox.addEventListener('dblclick', (event: MouseEvent) => {
-    handleDoubleClick(event)
+  todo_textbox.addEventListener('dblclick', handleDoubleClick)
+  todo_textbox.addEventListener('focusout', handleFocusOut)
+  todo_textbox.addEventListener('focusin', () => {
+    document.removeEventListener('keydown', keyboardShortcuts)
   })
-
-  todo_textbox.addEventListener('focusout', (event) => {
-    handleFocusOut(event)
-  })
-
   todo_textbox.addEventListener('keydown', (event) => {
     const key = event.key
 
@@ -80,12 +100,17 @@ function addTodoItem() {
 
   delete_button.addEventListener('click', (event) => {
     const target = event.target as HTMLInputElement
-
     target.parentElement?.remove()
   })
 
   todo_item.appendChild(delete_button)
 
-  todo_items?.prepend(todo_item)
+  if (where === 'end') {
+    todo_items?.append(todo_item)
+  } else {
+    todo_items?.prepend(todo_item)
+  }
   todo_textbox.focus()
 }
+
+document.addEventListener('keydown', keyboardShortcuts)
