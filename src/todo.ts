@@ -1,35 +1,14 @@
-function handleDoubleClick(event: MouseEvent) {
-  let target = event.target as HTMLInputElement
-
-  target.contentEditable = (target.contentEditable === 'false').toString()
-
-  if (target.contentEditable === 'true') {
-    target.classList.remove('hovereffect')
-  } else {
-    target.classList.add('hovereffect')
-  }
-
-  target.focus()
-}
-
 function keyboardShortcuts(event: KeyboardEvent) {
   const key = event.key
 
   if (key === 'n' || key === 'c') {
     event.preventDefault()
-    addTodoItem('beginning')
-  } else if (key === 'N' || key === 'C') {
-    event.preventDefault()
-    addTodoItem('end')
-  } else if (key === 'x' || key === 'q') {
+    addTodoItem()
+  } else if (key === 'x' || key === 'q' || key === 'Backspace') {
     event.preventDefault()
     const todo_items = document.getElementById('todo-items')
     todo_items?.removeChild(todo_items.firstChild as ChildNode)
-  } else if (key === 'X' || key === 'Q') {
-    event.preventDefault()
-    const todo_items = document.getElementById('todo-items')
-    todo_items?.removeChild(todo_items.lastChild as ChildNode)
-  } else if (key === 'd' || key === 'f') {
+  } else if (key === 'd' || key === 'f' || key === 'Enter') {
     event.preventDefault()
     const todo_items = document.getElementById('todo-items')
     toggleTaskDone(todo_items?.firstChild as HTMLElement)
@@ -37,11 +16,34 @@ function keyboardShortcuts(event: KeyboardEvent) {
 }
 
 function toggleTaskDone(target: HTMLElement) {
-  let todo_textbox = target.children[1] as HTMLInputElement
+  target.classList.toggle('done')
 
-  todo_textbox.style.textDecoration = todo_textbox.style.textDecoration === 'none' ? 'line-through #ffffff solid 1px' : 'none'
-  todo_textbox.style.color = todo_textbox.style.color === 'white' ? 'rgba(255, 255, 255, 0.7)' : 'white'
-  target.style.opacity = target.style.opacity === '1' ? '0.5' : '1'
+  let todo_items = document.getElementById('todo-items')
+  let hidden_items = document.getElementById('hidden-items')
+
+  if (target.classList.contains('done')) {
+    hidden_items.prepend(target)
+  } else {
+    todo_items.prepend(target)
+  }
+
+  let completed_button = document.getElementById('show-completed-tasks')
+
+  if (hidden_items.children.length > 0) {
+    completed_button.classList.add('show')
+  } else {
+    completed_button.classList.remove('show')
+  }
+}
+
+function handleDoubleClick(event: MouseEvent) {
+  let target = event.target as HTMLInputElement
+
+  target.contentEditable = (target.contentEditable === 'false').toString()
+
+  target.classList.toggle('hovereffect')
+
+  target.focus()
 }
 
 function handleFocusOut(event: Event) {
@@ -53,12 +55,11 @@ function handleFocusOut(event: Event) {
   document.addEventListener('keydown', keyboardShortcuts)
 }
 
-function addTodoItem(where: String = 'beginning') {
+function addTodoItem() {
   let todo_items = document.getElementById('todo-items')
 
   let todo_item = document.createElement('div')
   todo_item.className = 'todo-item'
-  todo_item.style.opacity = '1'
 
   let doneButton = document.createElement('button')
   doneButton.type = 'button'
@@ -73,10 +74,6 @@ function addTodoItem(where: String = 'beginning') {
   let todo_textbox = document.createElement('div')
   todo_textbox.className = 'todo-textbox'
   todo_textbox.contentEditable = 'true'
-  todo_textbox.style.userSelect = 'none'
-
-  todo_textbox.style.textDecoration = 'none'
-  todo_textbox.style.color = 'white'
 
   todo_textbox.addEventListener('dblclick', handleDoubleClick)
   todo_textbox.addEventListener('focusout', handleFocusOut)
@@ -105,12 +102,14 @@ function addTodoItem(where: String = 'beginning') {
 
   todo_item.appendChild(delete_button)
 
-  if (where === 'end') {
-    todo_items?.append(todo_item)
-  } else {
-    todo_items?.prepend(todo_item)
-  }
+  todo_items?.prepend(todo_item)
+
   todo_textbox.focus()
+}
+
+function toggleCompletedTasks() {
+  let hidden_items = document.getElementById('hidden-items')
+  hidden_items.classList.toggle('show')
 }
 
 document.addEventListener('keydown', keyboardShortcuts)

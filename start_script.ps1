@@ -1,2 +1,4 @@
-live-server.cmd ./src &
-tsc --watch
+tsc --watch &
+live-server.cmd ./src
+
+Get-Job | Stop-Job
