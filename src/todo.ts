@@ -107,7 +107,10 @@ function addTodoItem() {
   todo_textbox.focus()
 }
 
-function toggleCompletedTasks() {
+function toggleCompletedTasks(event: MouseEvent) {
+  let target = event.target as HTMLElement
+  target.classList.toggle('alt')
+
   let hidden_items = document.getElementById('hidden-items')
   hidden_items.classList.toggle('show')
 }

@@ -85,7 +85,9 @@ function addTodoItem() {
     todo_items === null || todo_items === void 0 ? void 0 : todo_items.prepend(todo_item);
     todo_textbox.focus();
 }
-function toggleCompletedTasks() {
+function toggleCompletedTasks(event) {
+    let target = event.target;
+    target.classList.toggle('alt');
     let hidden_items = document.getElementById('hidden-items');
     hidden_items.classList.toggle('show');
 }
