@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>ToDo Tracker</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/styles.css" rel="stylesheet">
-    <script src="todo.js" type="text/javascript" defer></script>
-  </head>
-  <body>
-    <header>
-      To-Do
-    </header>
+
+<head>
+  <title>ToDo Tracker</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/styles.css" rel="stylesheet">
+  <script src="todo.js" type="text/javascript" defer></script>
+</head>
+
+<body>
+  <header>
+    To-Do
+  </header>
+  <main>
     <div id="container">
       <div id="todo-list">
         <button id="add-button" type="button" onclick="addTodoItem()">+</button>
-        <div id="todo-items">
-          <!-- <div class="todo-item"> -->
-            <!-- <div class="todo-textbox" ondblclick="toggleEditState()" onfocusout="toggleEditState()" contenteditable></div> -->
-            <!-- <button type="button" class="delete-button">X</button> -->
-          <!-- </div> -->
-        </div>
+        <div id="todo-items"></div>
         <button id="show-completed-tasks" type="button" onclick="toggleCompletedTasks(event)">Completed</button>
-        <div id="hidden-items">
-        </div>
+        <div id="hidden-items"></div>
       </div>
     </div>
-  </body>
+  </main>
+</body>
+
 </html>

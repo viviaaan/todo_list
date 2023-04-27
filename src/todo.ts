@@ -1,19 +1,24 @@
 function keyboardShortcuts(event: KeyboardEvent) {
   const key = event.key
 
-  if (key === 'n' || key === 'c') {
+  if (['n', 'c'].includes(key)) {
     event.preventDefault()
     addTodoItem()
-  } else if (key === 'x' || key === 'q' || key === 'Backspace') {
+  } else if (['x', 'q', 'Backspace'].includes(key)) {
     event.preventDefault()
     const todo_items = document.getElementById('todo-items')
     todo_items?.removeChild(todo_items.firstChild as ChildNode)
-  } else if (key === 'd' || key === 'f' || key === 'Enter') {
+  } else if (['d', 'f', 'Enter'].includes(key)) {
     event.preventDefault()
     const todo_items = document.getElementById('todo-items')
     toggleTaskDone(todo_items?.firstChild as HTMLElement)
+  } else if (['s', '`'].includes(key)) {
+    event.preventDefault()
+    toggleCompletedTasks()
   }
 }
+
+document.addEventListener('keydown', keyboardShortcuts)
 
 function toggleTaskDone(target: HTMLElement) {
   target.classList.toggle('done')
@@ -47,6 +52,8 @@ function handleDoubleClick(event: MouseEvent) {
 }
 
 function handleFocusOut(event: Event) {
+  event.preventDefault()
+  event.stopPropagation() // prevent overlap with global keyboard shortcut that marks the task as done
   let target = event.target as HTMLInputElement
 
   target.contentEditable = 'false'
@@ -107,12 +114,10 @@ function addTodoItem() {
   todo_textbox.focus()
 }
 
-function toggleCompletedTasks(event: MouseEvent) {
-  let target = event.target as HTMLElement
-  target.classList.toggle('alt')
+function toggleCompletedTasks() {
+  let completed_button = document.getElementById('show-completed-tasks')
+  completed_button.classList.toggle('alt')
 
   let hidden_items = document.getElementById('hidden-items')
   hidden_items.classList.toggle('show')
 }
-
-document.addEventListener('keydown', keyboardShortcuts)

@@ -1,20 +1,25 @@
 function keyboardShortcuts(event) {
     const key = event.key;
-    if (key === 'n' || key === 'c') {
+    if (['n', 'c'].includes(key)) {
         event.preventDefault();
         addTodoItem();
     }
-    else if (key === 'x' || key === 'q' || key === 'Backspace') {
+    else if (['x', 'q', 'Backspace'].includes(key)) {
         event.preventDefault();
         const todo_items = document.getElementById('todo-items');
         todo_items === null || todo_items === void 0 ? void 0 : todo_items.removeChild(todo_items.firstChild);
     }
-    else if (key === 'd' || key === 'f' || key === 'Enter') {
+    else if (['d', 'f', 'Enter'].includes(key)) {
         event.preventDefault();
         const todo_items = document.getElementById('todo-items');
         toggleTaskDone(todo_items === null || todo_items === void 0 ? void 0 : todo_items.firstChild);
     }
+    else if (['s', '`'].includes(key)) {
+        event.preventDefault();
+        toggleCompletedTasks();
+    }
 }
+document.addEventListener('keydown', keyboardShortcuts);
 function toggleTaskDone(target) {
     target.classList.toggle('done');
     let todo_items = document.getElementById('todo-items');
@@ -40,6 +45,8 @@ function handleDoubleClick(event) {
     target.focus();
 }
 function handleFocusOut(event) {
+    event.preventDefault();
+    event.stopPropagation(); // prevent overlap with global keyboard shortcut that marks the task as done
     let target = event.target;
     target.contentEditable = 'false';
     target.classList.add('hovereffect');
@@ -85,10 +92,9 @@ function addTodoItem() {
     todo_items === null || todo_items === void 0 ? void 0 : todo_items.prepend(todo_item);
     todo_textbox.focus();
 }
-function toggleCompletedTasks(event) {
-    let target = event.target;
-    target.classList.toggle('alt');
+function toggleCompletedTasks() {
+    let completed_button = document.getElementById('show-completed-tasks');
+    completed_button.classList.toggle('alt');
     let hidden_items = document.getElementById('hidden-items');
     hidden_items.classList.toggle('show');
 }
-document.addEventListener('keydown', keyboardShortcuts);

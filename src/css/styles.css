@@ -154,14 +154,38 @@ header {
   background-color: rgba(60, 120, 189, 0.9);
 }
 
+@keyframes growDown {
+    0% {
+        transform: scaleY(0)
+    }
+    80% {
+        transform: scaleY(1.1)
+    }
+    100% {
+        transform: scaleY(1)
+    }
+}
+
+@keyframes growUp {
+    0% {
+        transform: scaleY(1)
+    }
+    100% {
+        transform: scaleY(0)
+    }
+}
+
 #show-completed-tasks:active {
   background-color: rgba(53,120,198, 0.6);
 }
 
 #hidden-items {
-  display: none;
+  animation: growUp 200ms ease-in-out forwards;
+  transform-origin: top center;
 }
 
 #hidden-items.show {
   display: block;
+  animation: growDown 200ms ease-in-out forwards;
+  transform-origin: top center;
 }
